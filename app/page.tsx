@@ -1,32 +1,13 @@
 import Link from "next/link"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Zap, Users, TrendingUp, Shield } from "lucide-react"
+import Header from "@/components/Header"
 
 export default function LandingPage() {
   return (
     <main className="min-h-screen bg-background">
 
-      {/* Navigation */}
-      <nav className="sticky top-0 z-50 border-b border-border bg-background/95 backdrop-blur">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <div className="flex items-center gap-2">
-              <div className="w-8 h-8 rounded-lg bg-primary flex items-center justify-center">
-                <span className="text-primary-foreground font-bold text-lg">H</span>
-              </div>
-              <span className="text-xl font-semibold text-foreground">ContentHive</span>
-            </div>
-            <div className="flex items-center gap-4">
-              <Link href="/login" className="text-foreground hover:text-primary transition-colors">
-                Login
-              </Link>
-              <Button asChild variant="default">
-                <Link href="/register">Get Started</Link>
-              </Button>
-            </div>
-          </div>
-        </div>
-      </nav>
+      <Header />
 
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 sm:py-32">
