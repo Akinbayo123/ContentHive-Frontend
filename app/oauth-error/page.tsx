@@ -20,5 +20,5 @@ export default function OAuthErrorPage() {
         router.push("/login"); // redirect after showing error
     }, [router]);
 
-    return <div>Processing OAuth error...</div>;
+    return <div>Processing...</div>;
 }
