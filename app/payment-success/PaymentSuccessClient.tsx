@@ -14,7 +14,7 @@ export default function PaymentSuccessClient() {
                 <p className="mt-2 text-gray-600">
                     Transaction Ref: {reference || "N/A"}
                 </p>
-                <Link href="/dashboard/browse" className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90">
+                <Link href="/dashboard/browse" className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90 mt-14">
                     Continue Browsing
                 </Link>
             </div>
