@@ -1,7 +1,8 @@
 "use client"
 
+import { Button } from "@/components/ui/button"
 import { useSearchParams } from "next/navigation"
-
+import Link from "next/link";
 export default function PaymentSuccessClient() {
     const searchParams = useSearchParams()
     const reference = searchParams.get("reference")
@@ -13,6 +14,9 @@ export default function PaymentSuccessClient() {
                 <p className="mt-2 text-gray-600">
                     Transaction Ref: {reference || "N/A"}
                 </p>
+                <Link href="/dashboard/browse" className="px-6 py-3 bg-primary text-white rounded-lg hover:bg-primary/90">
+                    Continue Browsing
+                </Link>
             </div>
         </div>
     )
