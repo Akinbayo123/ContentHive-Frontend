@@ -22,6 +22,7 @@ export default function BrowsePage() {
   const [totalPages, setTotalPages] = useState(1)
   const [loading, setLoading] = useState(true)
   const [favourites, setFavourites] = useState<Set<string>>(new Set())
+  const [loadingFile, setLoadingFile] = useState<string | null>(null)
   const router = useRouter()
 
   const { buying, purchases, handleBuyNow, fetchPurchases, downloadFile } = usePurchases()
@@ -237,20 +238,30 @@ export default function BrowsePage() {
                 {/* Footer */}
                 <div className="flex items-center justify-between border-t pt-3">
                   <span className="font-bold text-primary "> {new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN" }).format(item.price)}</span>
+
                   <Button
                     size="sm"
                     variant="ghost"
                     className="hover:cursor-pointer"
-                    disabled={buying}
-                    onClick={() => {
-                      purchases.has(item._id)
-                        ? downloadFile(item._id)
-                        : handleBuyNow(item._id)
+                    disabled={loadingFile === item._id}
+                    onClick={async () => {
+                      try {
+                        setLoadingFile(item._id)
+
+                        if (purchases.has(item._id)) {
+                          await downloadFile(item._id)
+                        } else {
+                          await handleBuyNow(item._id)
+                        }
+
+                      } finally {
+                        setLoadingFile(null)
+                      }
                     }}
                   >
                     {purchases.has(item._id)
                       ? "Download"
-                      : buying
+                      : loadingFile === item._id
                         ? "Processing..."
                         : "Buy Now"}
                   </Button>

@@ -19,6 +19,7 @@ export default function FavoritesPage() {
   const token = authUser?.token
   const [files, setFiles] = useState<any[]>([])
   const [page, setPage] = useState(1)
+  const [loadingFile, setLoadingFile] = useState<string | null>(null)
   const [totalPages, setTotalPages] = useState(1)
   const [loading, setLoading] = useState(true)
   const [favourites, setFavourites] = useState<Set<string>>(new Set())
@@ -129,19 +130,29 @@ export default function FavoritesPage() {
                     size="sm"
                     variant="ghost"
                     className="hover:cursor-pointer"
-                    disabled={buying}
-                    onClick={() => {
-                      purchases.has(item._id)
-                        ? downloadFile(item._id)
-                        : handleBuyNow(item._id)
+                    disabled={loadingFile === item._id}
+                    onClick={async () => {
+                      try {
+                        setLoadingFile(item._id)
+
+                        if (purchases.has(item._id)) {
+                          await downloadFile(item._id)
+                        } else {
+                          await handleBuyNow(item._id)
+                        }
+
+                      } finally {
+                        setLoadingFile(null)
+                      }
                     }}
                   >
                     {purchases.has(item._id)
                       ? "Download"
-                      : buying
+                      : loadingFile === item._id
                         ? "Processing..."
                         : "Buy Now"}
                   </Button>
+
                 </div>
               </div>
             </Card>
