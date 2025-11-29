@@ -54,51 +54,63 @@ export default function BuyerSettingsPage() {
   // Update profile (name/password)
   const handleSave = async () => {
     try {
-      setLoading(true)
-      const token = localStorage.getItem("token")
+      setLoading(true);
+      const token = localStorage.getItem("token");
+      if (!token) return;
 
-      if (!formData.fullName.trim()) {
-        toast.error("Full Name cannot be empty")
-        setLoading(false)
-        return
-      }
-      const payload: any = { name: formData.fullName }
-      if (!formData.newPassword || !formData.currentPassword) {
-        toast.error("Please enter both current and new passwords to update password")
-        setLoading(false)
-        return
-      }
-      if (formData.newPassword) {
-        if (formData.newPassword !== formData.confirmPassword) {
-          toast.error("Passwords do not match")
-          return
+      const payload: any = {};
+
+      // ACCOUNT TAB VALIDATION
+      if (activeTab === "account") {
+        if (!formData.fullName.trim()) {
+          toast.error("Full Name cannot be empty");
+          return;
         }
-        payload.currentPassword = formData.currentPassword
-        payload.password = formData.newPassword
+        payload.name = formData.fullName;
+      }
+
+      // SECURITY TAB VALIDATION
+      if (activeTab === "security") {
+        if (!formData.currentPassword || !formData.newPassword) {
+          toast.error("Please enter both current and new passwords");
+          return;
+        }
+
+        if (formData.newPassword !== formData.confirmPassword) {
+          toast.error("Passwords do not match");
+          return;
+        }
+
+        payload.currentPassword = formData.currentPassword;
+        payload.password = formData.newPassword;
       }
 
       const res = await axios.put(`${API_BASE_URL}/users/me`, payload, {
         headers: { Authorization: `Bearer ${token}` },
-      })
+      });
 
-      toast.success(res.data.message || "Profile updated successfully")
+      toast.success(res.data.message || "Profile updated successfully");
+
+      // Clear password fields after successful update
       setFormData({
         ...formData,
+        currentPassword: "",
         newPassword: "",
         confirmPassword: "",
-        currentPassword: ""
-      })
+      });
+
     } catch (err: any) {
-      console.error(err)
-      toast.error(err?.response?.data?.message || "Failed to update profile")
+      console.error(err);
+      toast.error(err?.response?.data?.message || "Failed to update profile");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
-  }
+  };
+
 
   // Define tabs (hide security if oauthProvider exists)
   const tabs: Array<"account" | "security"> = ["account"]
-  if (!oauthProvider) tabs.push("security") // only add security if user did NOT sign up via OAuth
+  if (!oauthProvider) tabs.push("security") // 
 
   return (
     <div className="p-4 sm:p-6 lg:p-8 max-w-4xl mx-auto w-full">

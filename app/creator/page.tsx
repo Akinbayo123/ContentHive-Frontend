@@ -43,8 +43,6 @@ export default function CreatorDashboard() {
     const fetchDashboard = async () => {
       try {
 
-
-
         const res = await axios.get(`${API_BASE_URL}/creators/dashboard`, {
           headers: { Authorization: `Bearer ${token}` },
         })
