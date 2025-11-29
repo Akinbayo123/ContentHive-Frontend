@@ -12,7 +12,6 @@ import { useParams } from "next/navigation"
 import { DetailPageSkeleton } from "@/components/skeletons/DetailPageSkeleton"
 import { getAuthUser } from "@/utils/auth"
 
-
 interface Content {
   _id: string
   slug: string
@@ -164,21 +163,21 @@ export default function DetailPage() {
 
 
               <div className="flex flex-wrap gap-3 mt-4">
-                <Button
-                  onClick={() => {
-                    const fileUrl =
-                      (content as any)?.url ||
-                      (content as any)?.file ||
-                      (content as any)?.downloadUrl
 
-                    if (fileUrl) window.open(fileUrl, "_blank")
-                    else alert("File not available")
+                <Button
+                  type="button"
+                  onClick={() => {
+                    const fileUrl = content?.url;
+                    if (fileUrl) window.location.href = fileUrl;
+                    else alert("File not available");
                   }}
-                  className="flex items-center gap-2 bg-primary text-white hover:bg-primary/90 transition"
+                  className="flex items-center gap-2 bg-primary text-white hover:bg-primary/90"
                 >
                   <Eye size={16} />
-                  View File
+                  View
                 </Button>
+
+
 
                 <Button
                   onClick={handleEdit}
