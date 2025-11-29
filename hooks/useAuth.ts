@@ -11,7 +11,7 @@ export const useAuth = (allowedRoles: Role[] = []) => {
 
   useEffect(() => {
     const user = getUserFromToken();
-    console.log('useAuth - user:', user);
+    // console.log('useAuth - user:', user);
 
     if (!user) {
       router.replace('/login');

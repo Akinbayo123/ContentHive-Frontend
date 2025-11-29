@@ -134,6 +134,7 @@ export default function EditContentPage() {
       }
     } finally {
       setLoading(false)
+      setSubmitting(false)
     }
   }
 

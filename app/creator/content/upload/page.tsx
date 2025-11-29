@@ -88,9 +88,9 @@ export default function UploadContentPage() {
       data.append("previewImage", previewImage)
       // backend expects the main file under the `file` field
       data.append("file", contentFile)
-      data.forEach((value, key) => {
-        console.log(key, value);
-      });
+      // data.forEach((value, key) => {
+      //   console.log(key, value);
+      // });
 
 
       const res = await axios.post(`${API_BASE_URL}/creators/files`, data, {

@@ -2,6 +2,7 @@
 import type React from "react"
 import { SidebarNav } from "@/components/sidebar-nav"
 import { useAuthRedirect } from "@/hooks/useAuthRedirect"
+import { useAuth } from "@/hooks/useAuth"
 export default function DashboardLayout({
   children,
 }: {
@@ -10,6 +11,7 @@ export default function DashboardLayout({
 
 ) {
   useAuthRedirect()
+  useAuth(["user"])
   return (
     <div className="flex flex-col md:flex-row min-h-screen bg-background">
       <SidebarNav />
