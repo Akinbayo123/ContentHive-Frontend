@@ -105,27 +105,30 @@ export default function BuyerDashboard() {
             <p className="text-muted-foreground">No recent purchases</p>
           ) : (
             <div className="space-y-4">
-              {recentPurchases.map((purchase) => (
-                <div
-                  key={purchase._id}
-                  className="flex items-center justify-between py-3 border-b border-border last:border-0"
-                >
-                  <div className="flex items-center gap-4 flex-1 min-w-0">
-                    <img
-                      src={purchase.file.previewImage || "/placeholder-image.png"}
-                      alt={purchase.file.title}
-                      className="w-16 h-16 object-cover rounded-lg shrink-0"
-                    />
-                    <div className="min-w-0">
-                      <p className="font-medium text-foreground truncate">{purchase.file.title}</p>
-                      <p className="text-sm text-muted-foreground">{purchase.file.creator?.name || "Unknown"}</p>
+              {recentPurchases.map((purchase) => {
+                if (!purchase.file) return null
+                return (
+                  <div
+                    key={purchase._id}
+                    className="flex items-center justify-between py-3 border-b border-border last:border-0"
+                  >
+                    <div className="flex items-center gap-4 flex-1 min-w-0">
+                      <img
+                        src={purchase.file.previewImage || "/placeholder-image.png"}
+                        alt={purchase.file.title}
+                        className="w-16 h-16 object-cover rounded-lg shrink-0"
+                      />
+                      <div className="min-w-0">
+                        <p className="font-medium text-foreground truncate">{purchase.file.title}</p>
+                        <p className="text-sm text-muted-foreground">{purchase.file.creator?.name || "Unknown"}</p>
+                      </div>
                     </div>
+                    <p className="font-semibold text-foreground ml-4">
+                      {new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN" }).format(purchase.file.price)}
+                    </p>
                   </div>
-                  <p className="font-semibold text-foreground ml-4">
-                    {new Intl.NumberFormat("en-NG", { style: "currency", currency: "NGN" }).format(purchase.file.price)}
-                  </p>
-                </div>
-              ))}
+                )
+              })}
             </div>
           )}
         </Card>
